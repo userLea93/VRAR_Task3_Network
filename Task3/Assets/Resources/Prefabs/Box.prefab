@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 54353143764559262}
   - component: {fileID: 114479300606273256}
   - component: {fileID: 114891064813405736}
+  - component: {fileID: 114546220120970254}
   m_Layer: 0
   m_Name: Box
   m_TagString: shared
@@ -146,6 +147,17 @@ MonoBehaviour:
     i15: 155
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114546220120970254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1712692410011862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c637b3782453e4a811b4225ffdb1f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114891064813405736
 MonoBehaviour:
   m_ObjectHideFlags: 1
