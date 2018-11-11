@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 114000013651768828}
   - component: {fileID: 114000012504134154}
   - component: {fileID: 114000010263180066}
+  - component: {fileID: 114402606371872448}
   m_Layer: 0
   m_Name: LeapHands
   m_TagString: Untagged
@@ -432,6 +433,7 @@ GameObject:
   - component: {fileID: 4000013625417186}
   - component: {fileID: 65000010423139040}
   - component: {fileID: 114000011922040504}
+  - component: {fileID: 114173786615034544}
   m_Layer: 0
   m_Name: Right
   m_TagString: right
@@ -509,6 +511,7 @@ GameObject:
   - component: {fileID: 4000011931191538}
   - component: {fileID: 65000010528429530}
   - component: {fileID: 114000011162647104}
+  - component: {fileID: 114509341327345368}
   m_Layer: 0
   m_Name: Left
   m_TagString: left
@@ -1245,8 +1248,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012218976488}
-  m_LocalRotation: {x: 0.2011821, y: 0.100722894, z: 0.11089976, w: -0.9680299}
-  m_LocalPosition: {x: -0.27325243, y: 0.03407085, z: -0.14087951}
+  m_LocalRotation: {x: -0, y: 0.9659258, z: 0.2588191, w: 0}
+  m_LocalPosition: {x: 0.06, y: 0.23099995, z: -0.3094167}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011007083510}
@@ -1518,8 +1521,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012095422068}
-  m_LocalRotation: {x: 0.20118213, y: -0.100723214, z: -0.110900044, w: -0.9680299}
-  m_LocalPosition: {x: 0.27325273, y: 0.03407097, z: -0.14087969}
+  m_LocalRotation: {x: -0, y: 0.9659258, z: 0.2588191, w: 0}
+  m_LocalPosition: {x: -0.06, y: 0.23099995, z: -0.3094167}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013451015038}
@@ -1791,6 +1794,43 @@ MonoBehaviour:
   m_SnapThreshold: 100
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
+--- !u!114 &114173786615034544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012095422068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8652fa57dc0735489c3ff525b6dd2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vive: 0
+  leap: 1
+--- !u!114 &114402606371872448
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010629629208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9214b002186eb4ebc5b98d536013be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114509341327345368
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012218976488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725ff22c134f2af4084cffb58608a1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vive: 0
+  leap: 1
 --- !u!137 &137000010798422192
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

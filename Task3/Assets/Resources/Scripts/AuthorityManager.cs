@@ -39,12 +39,23 @@ public class AuthorityManager : NetworkBehaviour {
     // Use this for initialization
     void Start () {
 
-       
+        netID = this.gameObject.GetComponent<NetworkIdentity>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (isLocalPlayer && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+        {
+            Debug.Log("REQUEST authority of " + netID.ToString());
+            localActor.RequestObjectAuthority(netID);
+        }
 
+        if (isLocalPlayer && Input.GetKeyDown("space"))
+        {
+            Debug.Log("Key down...");
+            localActor.RequestObjectAuthority(netID);
+        }
     }
 
     // assign localActor here

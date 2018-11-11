@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 // This script defines conditions that are necessary for the Leap player to grab a shared object
 // TODO: values of these four boolean variables can be changed either directly here or through other components
@@ -27,10 +28,79 @@ public class LeapGrab : MonoBehaviour {
         if (leftHandTouching && rightHandTouching && leftPinch && rightPinch)
         {
             // notify AuthorityManager that grab conditions are fulfilled
+            Debug.Log("Leap GRAAAAAAAAB detected!");
+            if (am)
+            {
+                am.grabbedByPlayer = true;
+            }
         }
         else
         {
-           // grab conditions are not fulfilled
+            // grab conditions are not fulfilled
         }
     }
+
+    
+    public void leftPincheDetected()
+    {
+        leftPinch = true;
+        Debug.Log("Left Pinch!");
+    }
+
+    public void rightPincheDetected()
+    {
+        rightPinch = true;
+        Debug.Log("Right Pinch!");
+    }
+
+    public void leftPinchReleased()
+    {
+        //leftPinch = false;
+    }
+
+    public void rightPinchReleased()
+    {
+        //rightPinch = false;
+    }
+
+    public void touchLeftDetected(AuthorityManager authorityManager)
+    {
+        if (rightHandTouching && am)
+        {
+            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
+            {
+                am = null;
+                return;
+            }
+        }
+        else
+        {
+            am = authorityManager;
+        }
+
+        Debug.Log("Touch left!");
+        leftHandTouching = true;
+
+    }
+
+    public void touchRightDetected(AuthorityManager authorityManager)
+    {
+        if (leftHandTouching && am)
+        {
+            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
+            {
+                am = null;
+                return;
+            }
+        }
+        else
+        {
+            am = authorityManager;
+        }
+
+        Debug.Log("Touch right!");
+        rightHandTouching = true;
+
+    }
+
 }

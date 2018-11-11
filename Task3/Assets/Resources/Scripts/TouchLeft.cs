@@ -12,4 +12,38 @@ public class TouchLeft : MonoBehaviour {
     public bool vive;
     public bool leap;
 
+    LeapGrab leapGrabScript;
+    ViveGrab viveGrabScript;
+
+    void Start()
+    {
+        if (leap)
+        {
+            leapGrabScript = GetComponentInParent<LeapGrab>();
+            Debug.Log("LeapGrabScript: " + leapGrabScript.gameObject.name);
+        }
+        else if (vive)
+        {
+            viveGrabScript = GetComponentInParent<ViveGrab>();
+            Debug.Log("ViveGrabScript: " + viveGrabScript.gameObject.name);
+
+        }
+
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "shared")
+        {
+            if (leap)
+            {
+                Debug.Log("Touch left leap hand!");
+                AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
+                leapGrabScript.touchLeftDetected(am);
+            }
+
+        }
+
+    }
+
 }

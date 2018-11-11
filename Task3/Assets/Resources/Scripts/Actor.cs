@@ -56,6 +56,7 @@ public class Actor : NetworkBehaviour {
                 for (int i = 0; i < sharedObjsArr.Length; i++)
                 {
                     sharedObjsArr[i].GetComponent<AuthorityManager>().AssignActor(this);
+                    sharedObjects.Add(sharedObjsArr[i].GetComponent<NetworkIdentity>());
                 }
             }
             //*******************************
@@ -71,10 +72,7 @@ public class Actor : NetworkBehaviour {
 
     public void Update()
     {
-        if (Input.GetKeyDown("space"))
-        {
-            RequestObjectAuthority(sharedObjects[0]);
-        }
+       
     }
 
     /// <summary>
@@ -184,6 +182,7 @@ public class Actor : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
+            Debug.Log("Request authority...");
             CmdAssignObjectAuthorityToClient(netID);
         }
     }
