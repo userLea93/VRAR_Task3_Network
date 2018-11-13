@@ -17,8 +17,14 @@ public class TouchRight : MonoBehaviour {
 
     void Start()
     {
-        leapGrabScript = GetComponentInParent<LeapGrab>();
-        viveGrabScript = GetComponentInParent<ViveGrab>();
+        if (leap)
+        {
+            leapGrabScript = GetComponentInParent<LeapGrab>();
+        }
+        else if (vive)
+        {
+            viveGrabScript = GetComponentInParent<ViveGrab>();
+        }
     }
 
     void OnTriggerEnter(Collider other)

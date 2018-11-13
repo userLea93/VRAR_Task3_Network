@@ -30,13 +30,17 @@ public class LeapGrab : MonoBehaviour {
             // notify AuthorityManager that grab conditions are fulfilled
             if (am)
             {
-                Debug.Log("Leap GRAB detected!!!");
+                Debug.Log("Leap grab detected!!!");
                 am.grabbedByPlayer = true;
             }
         }
         else
         {
             // grab conditions are not fulfilled
+            if (am)
+            {
+                am.grabbedByPlayer = false;
+            }
         }
     }
 
@@ -69,7 +73,7 @@ public class LeapGrab : MonoBehaviour {
         {
             if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
             {
-                am = null;
+                leftHandTouching = false;
                 return;
             }
         }
@@ -89,7 +93,7 @@ public class LeapGrab : MonoBehaviour {
         {
             if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
             {
-                am = null;
+                rightHandTouching = true;
                 return;
             }
         }

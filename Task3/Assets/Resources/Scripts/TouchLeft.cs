@@ -20,13 +20,10 @@ public class TouchLeft : MonoBehaviour {
         if (leap)
         {
             leapGrabScript = GetComponentInParent<LeapGrab>();
-            Debug.Log("LeapGrabScript: " + leapGrabScript.gameObject.name);
         }
         else if (vive)
         {
             viveGrabScript = GetComponentInParent<ViveGrab>();
-            Debug.Log("ViveGrabScript: " + viveGrabScript.gameObject.name);
-
         }
 
     }

@@ -45,18 +45,20 @@ public class AuthorityManager : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        
+        if (isClient && Input.GetKeyDown("space"))
+        {
+            Debug.Log("Key down...");
+            localActor.RequestObjectAuthority(netID);
+        }
+
         // when grabbed true does not enter this code!!!
-        if (isLocalPlayer && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+        if (isClient && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
         {
             Debug.Log("REQUEST authority of " + netID.ToString());
             localActor.RequestObjectAuthority(netID);
         }
 
-        if (isLocalPlayer && Input.GetKeyDown("space"))
-        {
-            Debug.Log("Key down...");
-            localActor.RequestObjectAuthority(netID);
-        }
     }
 
     // assign localActor here
@@ -69,6 +71,8 @@ public class AuthorityManager : NetworkBehaviour {
     // assign the authority over this game object to a client with NetworkConnection conn
     public void AssignClientAuthority(NetworkConnection conn)
     {
+        Debug.Log("Assign Authority!");
+        netID.localPlayerAuthority = true;
         netID.AssignClientAuthority(conn);
         grabbed = true;
     }
@@ -77,6 +81,8 @@ public class AuthorityManager : NetworkBehaviour {
     // remove the authority over this game object from a client with NetworkConnection conn
     public void RemoveClientAuthority(NetworkConnection conn)
     {
+        Debug.Log("Remove Authority!");
+        netID.localPlayerAuthority = false;
         netID.RemoveClientAuthority(conn);
         grabbed = false;
     }

@@ -1085,7 +1085,12 @@ Prefab:
     - target: {fileID: 54353143764559262, guid: 519f34b01de3ea54eb6abb9d21e1049b,
         type: 2}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114479300606273256, guid: 519f34b01de3ea54eb6abb9d21e1049b,
+        type: 2}
+      propertyPath: m_ServerOnly
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 519f34b01de3ea54eb6abb9d21e1049b, type: 2}
