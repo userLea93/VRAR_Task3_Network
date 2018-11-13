@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 4000013625417186}
   - component: {fileID: 65000010423139040}
   - component: {fileID: 114000011922040504}
-  - component: {fileID: 114470276815404648}
+  - component: {fileID: 114824700565654426}
   m_Layer: 0
   m_Name: Right
   m_TagString: right
@@ -510,7 +510,7 @@ GameObject:
   - component: {fileID: 4000011931191538}
   - component: {fileID: 65000010528429530}
   - component: {fileID: 114000011162647104}
-  - component: {fileID: 114061025994889330}
+  - component: {fileID: 114647509349797774}
   m_Layer: 0
   m_Name: Left
   m_TagString: left
@@ -1793,7 +1793,7 @@ MonoBehaviour:
   m_SnapThreshold: 100
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114061025994889330
+--- !u!114 &114647509349797774
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1804,9 +1804,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725ff22c134f2af4084cffb58608a1ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grabPinchAction: {fileID: 0}
+  handType: 0
   vive: 0
   leap: 1
---- !u!114 &114470276815404648
+--- !u!114 &114824700565654426
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1817,6 +1819,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8652fa57dc0735489c3ff525b6dd2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grabPinchAction: {fileID: 0}
+  handType: 0
   vive: 0
   leap: 1
 --- !u!137 &137000010798422192

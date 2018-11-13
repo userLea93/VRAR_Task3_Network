@@ -217,7 +217,11 @@ public class Actor : NetworkBehaviour {
                 netID.RemoveClientAuthority(otherOwner);
             }
             netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
+
+
         }
+
+        netID.gameObject.GetComponent<AuthorityManager>().TargetRequestProcessed(connectionToClient);
     }
 
     // run on the server

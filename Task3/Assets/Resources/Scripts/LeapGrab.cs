@@ -25,12 +25,16 @@ public class LeapGrab : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        Debug.Log("Left Pinch: " + leftPinch);
+        Debug.Log("Right Pinch: " + rightPinch);
+
         if (leftHandTouching && rightHandTouching && leftPinch && rightPinch)
         {
+            Debug.Log("Leap grab detected!!!");
+
             // notify AuthorityManager that grab conditions are fulfilled
             if (am)
             {
-                Debug.Log("Leap grab detected!!!");
                 am.grabbedByPlayer = true;
             }
         }
@@ -59,28 +63,28 @@ public class LeapGrab : MonoBehaviour {
 
     public void leftPinchReleased()
     {
-        leftPinch = false;
+        //leftPinch = false;
     }
 
     public void rightPinchReleased()
     {
-        rightPinch = false;
+        //rightPinch = false;
     }
 
     public void touchLeftDetected(AuthorityManager authorityManager)
     {
-        if (rightHandTouching && am)
-        {
-            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
-            {
-                leftHandTouching = false;
-                return;
-            }
-        }
-        else
-        {
+        //if (rightHandTouching && am)
+        //{
+        //    if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
+        //    {
+        //        leftHandTouching = false;
+        //        return;
+        //    }
+        //}
+        //else
+        //{
             am = authorityManager;
-        }
+        //}
 
         Debug.Log("Touch left!");
         leftHandTouching = true;
@@ -89,22 +93,32 @@ public class LeapGrab : MonoBehaviour {
 
     public void touchRightDetected(AuthorityManager authorityManager)
     {
-        if (leftHandTouching && am)
-        {
-            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
-            {
-                rightHandTouching = true;
-                return;
-            }
-        }
-        else
-        {
+        //if (leftHandTouching && am)
+        //{
+        //    if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
+        //    {
+        //        rightHandTouching = true;
+        //        return;
+        //    }
+        //}
+        //else
+        //{
             am = authorityManager;
-        }
+        //}
 
         Debug.Log("Touch right!");
         rightHandTouching = true;
 
+    }
+
+    public void touchRightRelease()
+    {
+        //rightHandTouching = false;
+    }
+
+    public void touchLeftRelease()
+    {
+       // leftHandTouching = false;
     }
 
 }

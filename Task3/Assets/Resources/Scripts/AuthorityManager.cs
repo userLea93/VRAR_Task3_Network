@@ -13,6 +13,7 @@ public class AuthorityManager : NetworkBehaviour {
     //**************************************************************************************************
     Actor localActor; // Actor that is steering this player 
 
+    private bool requestProcessed = false;
     private bool grabbed = false; // if this is true client authority for the object should be requested
     public bool grabbedByPlayer // private "grabbed" field can be accessed from other scripts through grabbedByPlayer
     {
@@ -55,15 +56,16 @@ public class AuthorityManager : NetworkBehaviour {
         {
             localActor.ReturnObjectAuthority(netID);
         }
-        if (isClient && netID.hasAuthority)
-        {
-            Debug.Log("Client has box authority");
-        }
+        //if (isClient && netID.hasAuthority)
+        //{
+        //    Debug.Log("Client has box authority");
+        //}
         // when grabbed true does not enter this code!!!
-        if (isClient && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+        if (isClient && grabbed && !localActor.hasAuthority && requestProcessed) // grab conditions are fulfilled but actor does not have authority -> request!
         {
             Debug.Log("REQUEST authority of " + netID.ToString());
             localActor.RequestObjectAuthority(netID);
+            requestProcessed = false;
         }
 
     }
@@ -90,6 +92,13 @@ public class AuthorityManager : NetworkBehaviour {
         Debug.Log("Remove Authority!");
         netID.RemoveClientAuthority(conn);
         grabbed = false;
+    }
+
+    [TargetRpc]
+    public void TargetRequestProcessed(NetworkConnection connection)
+    {
+        Debug.Log("Request processed.");
+        requestProcessed = true;
     }
 
 }
