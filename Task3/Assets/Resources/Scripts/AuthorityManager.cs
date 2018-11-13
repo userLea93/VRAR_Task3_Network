@@ -45,6 +45,7 @@ public class AuthorityManager : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        // when grabbed true does not enter this code!!!
         if (isLocalPlayer && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
         {
             Debug.Log("REQUEST authority of " + netID.ToString());

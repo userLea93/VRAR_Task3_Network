@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 114000013274417482}
   - component: {fileID: 114000010891923592}
   - component: {fileID: 114000010807721142}
-  - component: {fileID: 114493679097535210}
   m_Layer: 0
   m_Name: ViveHands
   m_TagString: Untagged
@@ -1807,17 +1806,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vive: 1
   leap: 0
---- !u!114 &114493679097535210
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010413796312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 467f13454179e8f43a87377897700d99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114755861942242210
 MonoBehaviour:
   m_ObjectHideFlags: 1

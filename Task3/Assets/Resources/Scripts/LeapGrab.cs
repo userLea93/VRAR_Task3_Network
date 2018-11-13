@@ -28,9 +28,9 @@ public class LeapGrab : MonoBehaviour {
         if (leftHandTouching && rightHandTouching && leftPinch && rightPinch)
         {
             // notify AuthorityManager that grab conditions are fulfilled
-            Debug.Log("Leap GRAAAAAAAAB detected!");
             if (am)
             {
+                Debug.Log("Leap GRAB detected!!!");
                 am.grabbedByPlayer = true;
             }
         }
@@ -55,12 +55,12 @@ public class LeapGrab : MonoBehaviour {
 
     public void leftPinchReleased()
     {
-        //leftPinch = false;
+        leftPinch = false;
     }
 
     public void rightPinchReleased()
     {
-        //rightPinch = false;
+        rightPinch = false;
     }
 
     public void touchLeftDetected(AuthorityManager authorityManager)

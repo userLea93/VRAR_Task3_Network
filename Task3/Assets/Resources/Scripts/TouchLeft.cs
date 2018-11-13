@@ -37,7 +37,6 @@ public class TouchLeft : MonoBehaviour {
         {
             if (leap)
             {
-                Debug.Log("Touch left leap hand!");
                 AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
                 leapGrabScript.touchLeftDetected(am);
             }
