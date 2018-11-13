@@ -72,7 +72,8 @@ public class Actor : NetworkBehaviour {
 
     public void Update()
     {
-       
+        
+
     }
 
     /// <summary>
@@ -193,6 +194,7 @@ public class Actor : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
+            Debug.Log("Remove authority...");
             CmdRemoveObjectAuthorityFromClient(netID);
         }  
     }
@@ -203,7 +205,19 @@ public class Actor : NetworkBehaviour {
     void CmdAssignObjectAuthorityToClient(NetworkIdentity netID)
     {
         //Angenommen client bekommt fix Object
-        netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
+        NetworkConnection otherOwner = netID.clientAuthorityOwner;
+        if (otherOwner == connectionToClient)
+        {
+            return;
+        }
+        else
+        {
+            if (otherOwner != null)
+            {
+                netID.RemoveClientAuthority(otherOwner);
+            }
+            netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
+        }
     }
 
     // run on the server

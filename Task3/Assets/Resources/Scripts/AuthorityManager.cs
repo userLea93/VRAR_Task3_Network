@@ -51,7 +51,14 @@ public class AuthorityManager : NetworkBehaviour {
             Debug.Log("Key down...");
             localActor.RequestObjectAuthority(netID);
         }
-
+        if (isClient && Input.GetKeyDown(KeyCode.E))
+        {
+            localActor.ReturnObjectAuthority(netID);
+        }
+        if (isClient && netID.hasAuthority)
+        {
+            Debug.Log("Client has box authority");
+        }
         // when grabbed true does not enter this code!!!
         if (isClient && grabbed && !localActor.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
         {
@@ -72,7 +79,6 @@ public class AuthorityManager : NetworkBehaviour {
     public void AssignClientAuthority(NetworkConnection conn)
     {
         Debug.Log("Assign Authority!");
-        netID.localPlayerAuthority = true;
         netID.AssignClientAuthority(conn);
         grabbed = true;
     }
@@ -82,7 +88,6 @@ public class AuthorityManager : NetworkBehaviour {
     public void RemoveClientAuthority(NetworkConnection conn)
     {
         Debug.Log("Remove Authority!");
-        netID.localPlayerAuthority = false;
         netID.RemoveClientAuthority(conn);
         grabbed = false;
     }
