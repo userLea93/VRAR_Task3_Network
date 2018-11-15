@@ -13,7 +13,7 @@ public class AuthorityManager : NetworkBehaviour {
     //**************************************************************************************************
     Actor localActor; // Actor that is steering this player 
 
-    private bool requestProcessed = false;
+    private bool requestProcessed = true; // on start, there are no requests therefor we don't have to wait for them
     private bool grabbed = false; // if this is true client authority for the object should be requested
     public bool grabbedByPlayer // private "grabbed" field can be accessed from other scripts through grabbedByPlayer
     {
@@ -41,7 +41,7 @@ public class AuthorityManager : NetworkBehaviour {
     void Start () {
 
         netID = this.gameObject.GetComponent<NetworkIdentity>();
-
+        onb = this.gameObject.AddComponent<OnGrabbedBehaviour>();
 	}
 	
 	// Update is called once per frame
@@ -60,14 +60,21 @@ public class AuthorityManager : NetworkBehaviour {
         //{
         //    Debug.Log("Client has box authority");
         //}
-        // when grabbed true does not enter this code!!!
-        if (isClient && grabbed && !localActor.hasAuthority && requestProcessed) // grab conditions are fulfilled but actor does not have authority -> request!
-        {
-            Debug.Log("REQUEST authority of " + netID.ToString());
-            localActor.RequestObjectAuthority(netID);
-            requestProcessed = false;
-        }
 
+        if (isClient && requestProcessed)
+        {
+            if (grabbed && !netID.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+            {
+                Debug.Log("REQUEST authority of " + netID.ToString());
+                requestProcessed = false;
+                localActor.RequestObjectAuthority(netID);
+            }
+            else if (!grabbed && netID.hasAuthority)
+            {
+                requestProcessed = false;
+                localActor.ReturnObjectAuthority(netID);
+            }
+        }
     }
 
     // assign localActor here
@@ -82,7 +89,7 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("Assign Authority!");
         netID.AssignClientAuthority(conn);
-        grabbed = true;
+        //grabbed = true; // should be true already
     }
 
     // should only be called on server (by an Actor)
@@ -91,7 +98,8 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("Remove Authority!");
         netID.RemoveClientAuthority(conn);
-        grabbed = false;
+
+        //grabbed = false;
     }
 
     [TargetRpc]
@@ -99,6 +107,15 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("Request processed.");
         requestProcessed = true;
+
+        if (netID.hasAuthority)
+        {
+            onb.OnGrabbed(localActor);
+        }
+        else
+        {
+            onb.OnReleased();
+        }
     }
 
 }

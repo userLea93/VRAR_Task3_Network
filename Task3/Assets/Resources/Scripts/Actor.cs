@@ -204,9 +204,8 @@ public class Actor : NetworkBehaviour {
     [Command]
     void CmdAssignObjectAuthorityToClient(NetworkIdentity netID)
     {
-        //Angenommen client bekommt fix Object
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
-        if (otherOwner == connectionToClient)
+        if (otherOwner == connectionToClient) // current client is already the owner
         {
             return;
         }
@@ -214,7 +213,8 @@ public class Actor : NetworkBehaviour {
         {
             if (otherOwner != null)
             {
-                netID.RemoveClientAuthority(otherOwner);
+                netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(otherOwner);
+                //netID.RemoveClientAuthority(otherOwner);
             }
             netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
 
@@ -229,7 +229,21 @@ public class Actor : NetworkBehaviour {
     [Command]
     void CmdRemoveObjectAuthorityFromClient(NetworkIdentity netID)
     {
-        netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
+        NetworkConnection otherOwner = netID.clientAuthorityOwner;
+        if (otherOwner != connectionToClient) // current client is not the owner
+        {
+            return;
+        }
+        else
+        {
+            if (otherOwner != null)
+            {
+                netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
+            }
+        }
+
+        netID.gameObject.GetComponent<AuthorityManager>().TargetRequestProcessed(connectionToClient);
+
     }
     //*******************************
 }

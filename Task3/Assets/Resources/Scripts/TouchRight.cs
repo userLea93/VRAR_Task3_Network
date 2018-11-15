@@ -23,45 +23,28 @@ public class TouchRight : MonoBehaviour {
 
     void Start()
     {
-        if (leap)
-        {
-            Debug.Log("Script loading...");
-            leapGrabScript = GetComponentInParent<LeapGrab>();
-            if (leapGrabScript)
-                Debug.Log("Success!");
-        }
-        else if (vive)
-        {
-            viveGrabScript = GetComponentInParent<ViveGrab>();
-        }
+
     }
 
-    void OnEnable()
+
+    private void OnTriggerEnter(Collider other)
     {
         if (leap)
         {
-            Debug.Log("Script loading...");
-            leapGrabScript = GetComponentInParent<LeapGrab>();
-            if (leapGrabScript)
-                Debug.Log("Success!");
-        }
-        else if (vive)
-        {
-            viveGrabScript = GetComponentInParent<ViveGrab>();
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-
-        if (other.gameObject.tag == "shared")
-        {
-            if (leap)
+            if (other.gameObject.tag == "shared")
             {
-                Debug.Log("Touch right");
+                if (!leapGrabScript)
+                {
+                    loadScript();
+                }
 
-                AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
-                leapGrabScript.touchRightDetected(am);
+                if (leapGrabScript)
+                {
+                    //Debug.Log("Touch right");
+
+                    AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
+                    leapGrabScript.touchRightDetected(am);
+                }
             }
         }
 
@@ -69,13 +52,21 @@ public class TouchRight : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "shared")
+        if (leap)
         {
-            if (leap)
+            if (other.gameObject.tag == "shared")
             {
-                leapGrabScript.touchRightRelease();
-            }
+                if (!leapGrabScript)
+                {
+                    loadScript();
+                }
 
+                if (leapGrabScript)
+                {
+                    //Debug.Log("Release right");
+                    leapGrabScript.touchRightRelease();
+                }
+            }
         }
     }
 
@@ -84,23 +75,44 @@ public class TouchRight : MonoBehaviour {
     {
         if (vive)
         {
-            if (other.gameObject.tag == "shared")
+            if (!viveGrabScript)
             {
-                viveGrabScript.setRightHandTouching(true);
-                if (grabPinchAction.GetStateDown(handType))
+                loadScript();
+            }
+
+            if (viveGrabScript)
+            {
+                if (other.gameObject.tag == "shared")
                 {
-                    Debug.Log("Right hand pressed");
-                    viveGrabScript.setRightTriggerDown(true);
+                    viveGrabScript.setRightHandTouching(true);
+                    if (grabPinchAction.GetStateDown(handType))
+                    {
+                        Debug.Log("Right hand pressed");
+                        viveGrabScript.setRightTriggerDown(true);
+                    }
+                    else
+                    {
+                        viveGrabScript.setRightTriggerDown(false);
+                    }
                 }
                 else
                 {
-                    viveGrabScript.setRightTriggerDown(false);
+                    viveGrabScript.setRightHandTouching(false);
                 }
             }
-            else
-            {
-                viveGrabScript.setRightHandTouching(false);
-            }
+        }
+    }
+
+
+    private void loadScript()
+    {
+        if (leap)
+        {
+            leapGrabScript = GetComponentInParent<LeapGrab>();
+        }
+        else if (vive)
+        {
+            viveGrabScript = GetComponentInParent<ViveGrab>();
         }
     }
 }

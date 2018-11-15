@@ -23,61 +23,50 @@ public class TouchLeft : MonoBehaviour {
 
     void Start()
     {
-        if (leap)
-        {
-            Debug.Log("Script loading...");
-            leapGrabScript = GetComponentInParent<LeapGrab>();
-            if (leapGrabScript)
-                Debug.Log("Success!");
-        }
-        else if (vive)
-        {
-            viveGrabScript = GetComponentInParent<ViveGrab>();
-        }
 
     }
 
-    void OnEnable()
+
+    private void OnTriggerEnter(Collider other)
     {
         if (leap)
         {
-            Debug.Log("Script loading...");
-            leapGrabScript = GetComponentInParent<LeapGrab>();
-            if (leapGrabScript)
-                Debug.Log("Success!");
-        }
-        else if (vive)
-        {
-            viveGrabScript = GetComponentInParent<ViveGrab>();
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-
-        if (other.gameObject.tag == "shared")
-        {
-            if (leap)
+            if (other.gameObject.tag == "shared")
             {
-                Debug.Log("Touch left");
+                if (!leapGrabScript)
+                {
+                    loadScript();
+                }
 
-                AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
-                leapGrabScript.touchLeftDetected(am);
+                if (leapGrabScript)
+                {
+                    //Debug.Log("Touch left");
+
+                    AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
+                    leapGrabScript.touchLeftDetected(am);
+                }
             }
-
         }
 
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "shared")
+        if (leap)
         {
-            if (leap)
+            if (other.gameObject.tag == "shared")
             {
-                leapGrabScript.touchLeftRelease();
-            }
+                if (!leapGrabScript)
+                {
+                    loadScript();
+                }
 
+                if (leapGrabScript)
+                {
+                    //Debug.Log("Release left");
+                    leapGrabScript.touchLeftRelease();
+                }
+            }
         }
     }
 
@@ -85,24 +74,45 @@ public class TouchLeft : MonoBehaviour {
     {
 
         if (vive)
-        { 
-            if (other.gameObject.tag == "shared")
+        {
+            if (!viveGrabScript)
             {
-                viveGrabScript.setLeftHandTouching(true);
-                if (grabPinchAction.GetStateDown(handType))
+                loadScript();
+            }
+
+            if (viveGrabScript)
+            {
+                if (other.gameObject.tag == "shared")
                 {
-                    Debug.Log("Left hand pressed");
-                    viveGrabScript.setLeftTriggerDown(true);
+                    viveGrabScript.setLeftHandTouching(true);
+                    if (grabPinchAction.GetStateDown(handType))
+                    {
+                        Debug.Log("Left hand pressed");
+                        viveGrabScript.setLeftTriggerDown(true);
+                    }
+                    else
+                    {
+                        viveGrabScript.setLeftTriggerDown(false);
+                    }
                 }
                 else
                 {
-                    viveGrabScript.setLeftTriggerDown(false);
+                    viveGrabScript.setLeftHandTouching(false);
                 }
             }
-            else
-            {
-                viveGrabScript.setLeftHandTouching(false);
-            }
+        }
+    }
+
+
+    private void loadScript()
+    {
+        if (leap)
+        {
+            leapGrabScript = GetComponentInParent<LeapGrab>();
+        }
+        else if (vive)
+        {
+            viveGrabScript = GetComponentInParent<ViveGrab>();
         }
     }
 
