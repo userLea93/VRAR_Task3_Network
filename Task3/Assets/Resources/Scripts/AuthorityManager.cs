@@ -116,4 +116,11 @@ public class AuthorityManager : NetworkBehaviour {
         onb.OnReleased();
         
     }
+    
+    [TargetRpc]
+    public void TargetAuthorityDeclined(NetworkConnection connection)
+    {
+        Debug.Log("Declined Authority from Host. Please wait");
+        requestProcessed = true;
+    }
 }
