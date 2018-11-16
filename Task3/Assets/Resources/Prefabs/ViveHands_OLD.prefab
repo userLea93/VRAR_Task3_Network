@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 114000010891923592}
   - component: {fileID: 114000010807721142}
   m_Layer: 0
-  m_Name: ViveHands
+  m_Name: ViveHands_OLD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -965,8 +965,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013205190620}
-  m_LocalRotation: {x: -0, y: 0.9659258, z: 0.2588191, w: 0}
-  m_LocalPosition: {x: -0.06, y: 0.23099995, z: -0.3094167}
+  m_LocalRotation: {x: 0.115335844, y: 0.4461121, z: 0.3329062, w: 0.82271206}
+  m_LocalPosition: {x: -0.32829493, y: 0.01501286, z: -0.19125715}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013440826968}
@@ -993,8 +993,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013474749860}
-  m_LocalRotation: {x: -0, y: 0.9659258, z: 0.2588191, w: 0}
-  m_LocalPosition: {x: 0.06, y: 0.23099995, z: -0.3094167}
+  m_LocalRotation: {x: -0.006653958, y: 0.2321586, z: 0.15449756, w: 0.9603066}
+  m_LocalPosition: {x: -0.36480886, y: -0.013666034, z: -0.12826468}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013765266514}

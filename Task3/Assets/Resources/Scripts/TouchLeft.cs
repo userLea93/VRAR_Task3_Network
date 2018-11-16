@@ -25,13 +25,38 @@ public class TouchLeft : MonoBehaviour {
     {
 
     }
-
+    private void Update()
+    {
+        if (vive)
+        {
+            if (grabPinchAction.GetStateUp(handType))
+            {
+                Debug.Log("Button released");
+                if (!viveGrabScript)
+                {
+                    loadScript();
+                }
+                if (viveGrabScript)
+                    viveGrabScript.setLeftTriggerDown(false);
+            }
+            if (grabPinchAction.GetLastStateDown(handType))
+            {
+                Debug.Log("Button down");
+                if (!viveGrabScript)
+                {
+                    loadScript();
+                }
+                if (viveGrabScript) viveGrabScript.setLeftTriggerDown(true);
+            }
+        }
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (leap)
+        if (other.gameObject.tag == "shared")
         {
-            if (other.gameObject.tag == "shared")
+            if (leap)
             {
                 if (!leapGrabScript)
                 {
@@ -41,9 +66,21 @@ public class TouchLeft : MonoBehaviour {
                 if (leapGrabScript)
                 {
                     //Debug.Log("Touch left");
-
                     AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
                     leapGrabScript.touchLeftDetected(am);
+                }
+            }
+            else if(vive)
+            {
+                if (!viveGrabScript)
+                {
+                    loadScript();
+                }
+                if (viveGrabScript)
+                {
+                    AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
+                    viveGrabScript.setAuthorityManagerLeftHand(am);
+                    viveGrabScript.setLeftHandTouching(true);
                 }
             }
         }
@@ -52,9 +89,9 @@ public class TouchLeft : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (leap)
+        if (other.gameObject.tag == "shared")
         {
-            if (other.gameObject.tag == "shared")
+            if (leap)
             {
                 if (!leapGrabScript)
                 {
@@ -67,9 +104,20 @@ public class TouchLeft : MonoBehaviour {
                     leapGrabScript.touchLeftRelease();
                 }
             }
+            else if (vive)
+            {
+                if (!viveGrabScript)
+                {
+                    loadScript();
+                }
+                if (viveGrabScript)
+                {
+                    viveGrabScript.setLeftHandTouching(false);
+                }
+            }
         }
     }
-
+    /*
     private void OnTriggerStay(Collider other)
     {
 
@@ -85,15 +133,7 @@ public class TouchLeft : MonoBehaviour {
                 if (other.gameObject.tag == "shared")
                 {
                     viveGrabScript.setLeftHandTouching(true);
-                    if (grabPinchAction.GetStateDown(handType))
-                    {
-                        Debug.Log("Left hand pressed");
-                        viveGrabScript.setLeftTriggerDown(true);
-                    }
-                    else
-                    {
-                        viveGrabScript.setLeftTriggerDown(false);
-                    }
+                    
                 }
                 else
                 {
@@ -102,7 +142,7 @@ public class TouchLeft : MonoBehaviour {
             }
         }
     }
-
+    */
 
     private void loadScript()
     {

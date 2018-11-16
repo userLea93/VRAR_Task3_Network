@@ -8,7 +8,8 @@ using System.Collections;
 public class ViveGrab : MonoBehaviour
 {
 
-    AuthorityManager am; // to communicate the fulfillment of grabbing conditions
+    AuthorityManager amLeftHand; // to communicate the fulfillment of grabbing conditions
+    AuthorityManager amRightHand; // to communicate the fulfillment of grabbing conditions
 
 
 
@@ -33,18 +34,18 @@ public class ViveGrab : MonoBehaviour
             // notify AuthorityManager that grab conditions are fulfilled
             //am.grabbedByPlayer = true;
             Debug.Log("!!!!!Box GRABBED BY VIVE");
-            if (am)
+            if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
             {
-                am.grabbedByPlayer = true;
+                amLeftHand.grabbedByPlayer = true;
             }
         }
         else
         {
             //am.grabbedByPlayer = false;
             // grab conditions are not fulfilled
-            if (am)
+            if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
             {
-                am.grabbedByPlayer = false;
+                amLeftHand.grabbedByPlayer = false;
             }
         }
 
@@ -68,8 +69,12 @@ public class ViveGrab : MonoBehaviour
         rightTriggerDown = set;
     }
 
-    public void setAuthorityManager(AuthorityManager authorityManager)
+    public void setAuthorityManagerLeftHand(AuthorityManager authorityManager)
     {
-        am = authorityManager;
+        amLeftHand = authorityManager;
+    }
+    public void setAuthorityManagerRightHand(AuthorityManager authorityManager)
+    {
+        amRightHand = authorityManager;
     }
 }

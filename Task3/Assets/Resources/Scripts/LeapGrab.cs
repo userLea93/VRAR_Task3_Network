@@ -8,7 +8,8 @@ using UnityEngine.Networking;
 
 public class LeapGrab : MonoBehaviour {
 
-    AuthorityManager am;
+    AuthorityManager amLeftHand; // to communicate the fulfillment of grabbing conditions
+    AuthorityManager amRightHand; // to communicate the fulfillment of grabbing conditions
 
     // conditions for the object control here
     bool leftHandTouching = false;
@@ -30,17 +31,17 @@ public class LeapGrab : MonoBehaviour {
             //Debug.Log("Leap grab detected!!!");
 
             // notify AuthorityManager that grab conditions are fulfilled
-            if (am)
+            if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
             {
-                am.grabbedByPlayer = true;
+                amLeftHand.grabbedByPlayer = true;
             }
         }
         else
         {
             // grab conditions are not fulfilled
-            if (am)
+            if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
             {
-                am.grabbedByPlayer = false;
+                amLeftHand.grabbedByPlayer = false;
             }
         }
     }
@@ -72,6 +73,7 @@ public class LeapGrab : MonoBehaviour {
 
     public void touchLeftDetected(AuthorityManager authorityManager)
     {
+        /*
         if (rightHandTouching && am)
         {
             if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
@@ -84,7 +86,8 @@ public class LeapGrab : MonoBehaviour {
         {
             am = authorityManager;
         }
-
+        */
+        amLeftHand = authorityManager;
         //Debug.Log("Touch left!");
         leftHandTouching = true;
 
@@ -92,6 +95,7 @@ public class LeapGrab : MonoBehaviour {
 
     public void touchRightDetected(AuthorityManager authorityManager)
     {
+        /*
         if (leftHandTouching && am)
         {
             if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
@@ -104,7 +108,8 @@ public class LeapGrab : MonoBehaviour {
         {
             am = authorityManager;
         }
-
+        */
+        amRightHand = authorityManager;
         //Debug.Log("Touch right!");
         rightHandTouching = true;
 
