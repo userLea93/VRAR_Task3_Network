@@ -210,26 +210,19 @@ public class Actor : NetworkBehaviour {
     void CmdAssignObjectAuthorityToClient(NetworkIdentity netID)
     {
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
-        if (otherOwner == connectionToClient) // current client is already the owner
+        
+        
+        if (otherOwner != null && otherOwner != connectionToClient)
         {
-            return;
+            netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(otherOwner);
+            netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(otherOwner);
+            //netID.RemoveClientAuthority(otherOwner);
         }
-        else
-        {
-            if (otherOwner != null)
-            {
-                netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(otherOwner);
-                //netID.RemoveClientAuthority(otherOwner);
-            }
-            Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
-            rb.isKinematic = true;
+        Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
 
-            netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
-
-
-        }
-
-        netID.gameObject.GetComponent<AuthorityManager>().TargetRequestProcessed(connectionToClient);
+        netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
+        netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityAssigned(connectionToClient);
     }
 
     // run on the server
@@ -238,21 +231,15 @@ public class Actor : NetworkBehaviour {
     void CmdRemoveObjectAuthorityFromClient(NetworkIdentity netID)
     {
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
-        if (otherOwner != connectionToClient) // current client is not the owner
+        
+        if (otherOwner != null && otherOwner == connectionToClient)
         {
-            return;
+            netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
+            Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
+            rb.isKinematic = false;
         }
-        else
-        {
-            if (otherOwner != null)
-            {
-                netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
-                Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
-                rb.isKinematic = false;
-            }
-        }
-
-        netID.gameObject.GetComponent<AuthorityManager>().TargetRequestProcessed(connectionToClient);
+        
+        netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
 
     }
     //*******************************

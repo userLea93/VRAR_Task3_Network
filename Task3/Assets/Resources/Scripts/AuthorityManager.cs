@@ -13,7 +13,6 @@ public class AuthorityManager : NetworkBehaviour {
     //**************************************************************************************************
     Actor localActor; // Actor that is steering this player 
 
-    private bool hasAuthorityLastFrame = false;
     private bool requestProcessed = true; // on start, there are no requests therefor we don't have to wait for them
     private bool grabbed = false; // if this is true client authority for the object should be requested
     public bool grabbedByPlayer // private "grabbed" field can be accessed from other scripts through grabbedByPlayer
@@ -48,15 +47,7 @@ public class AuthorityManager : NetworkBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (isClient && Input.GetKeyDown("space"))
-        {
-            Debug.Log("Key down...");
-            localActor.RequestObjectAuthority(netID);
-        }
-        if (isClient && Input.GetKeyDown(KeyCode.E))
-        {
-            localActor.ReturnObjectAuthority(netID);
-        }
+ 
         //if (isClient && netID.hasAuthority)
         //{
         //    Debug.Log("Client has box authority");
@@ -79,12 +70,7 @@ public class AuthorityManager : NetworkBehaviour {
                 }
             }
 
-            if (hasAuthorityLastFrame && !netID.hasAuthority)
-            {
-                onb.OnReleased();
-            }
-
-            hasAuthorityLastFrame = netID.hasAuthority;
+            
         }
     }
 
@@ -114,19 +100,20 @@ public class AuthorityManager : NetworkBehaviour {
     }
 
     [TargetRpc]
-    public void TargetRequestProcessed(NetworkConnection connection)
+    public void TargetAuthorityAssigned(NetworkConnection connection)
     {
-        Debug.Log("Request processed.");
+        Debug.Log("Get authority from host.");
         requestProcessed = true;
 
-        if (netID.hasAuthority)
-        {
-            onb.OnGrabbed(localActor);
-        }
-        else
-        {
-            onb.OnReleased();
-        }
+        onb.OnGrabbed(localActor);
+        
     }
-
+    [TargetRpc]
+    public void TargetAuthorityRemoved(NetworkConnection connection)
+    {
+        Debug.Log("Remove Authority from Host.");
+        requestProcessed = true;
+        onb.OnReleased();
+        
+    }
 }
