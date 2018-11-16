@@ -1305,8 +1305,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1584198240855110}
-  m_LocalRotation: {x: -0.09000336, y: 0.6371515, z: 0.0664011, w: 0.76258004}
-  m_LocalPosition: {x: -0.61597776, y: 5.06882, z: -3.488733}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.78136444, y: 4.003127, z: -2.808974}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4579141765096546}
@@ -1689,8 +1689,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725ff22c134f2af4084cffb58608a1ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grabPinchAction: {fileID: 11400000, guid: 72cced05a56608849b03107ada931f40, type: 2}
-  handType: 1
   vive: 1
   leap: 0
 --- !u!114 &114446383968288744

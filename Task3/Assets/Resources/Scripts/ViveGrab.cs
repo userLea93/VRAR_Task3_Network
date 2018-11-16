@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Valve.VR;
 
 // This script defines conditions that are necessary for the Vive player to grab a shared object
 // TODO: values of these four boolean variables can be changed either directly here or through other components
@@ -11,7 +12,12 @@ public class ViveGrab : MonoBehaviour
     AuthorityManager amLeftHand; // to communicate the fulfillment of grabbing conditions
     AuthorityManager amRightHand; // to communicate the fulfillment of grabbing conditions
 
-
+    [SteamVR_DefaultAction("GrabPinch")]
+    public SteamVR_Action_Boolean grabPinchAction;
+    
+    private SteamVR_Input_Sources handTypeLeft;
+    private SteamVR_Input_Sources handTypeRight;
+    
 
     // conditions for the object control here
     bool leftHandTouching = false;
@@ -22,13 +28,25 @@ public class ViveGrab : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        SteamVR_Behaviour_Pose[] poseList = GetComponentsInChildren<SteamVR_Behaviour_Pose>();
+        foreach (SteamVR_Behaviour_Pose pose in poseList)
+        {
+            if (pose.gameObject.tag == "left")
+            {
+                handTypeLeft = pose.inputSource;
+            }
+            else if(pose.gameObject.tag == "right")
+            {
+                handTypeRight= pose.inputSource;
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        touchDetection(handTypeLeft, true);
+        touchDetection(handTypeRight, false);
         if (leftHandTouching && rightHandTouching && leftTriggerDown && rightTriggerDown)
         {
             // notify AuthorityManager that grab conditions are fulfilled
@@ -54,7 +72,21 @@ public class ViveGrab : MonoBehaviour
         }
 
     }
-
+    private void touchDetection(SteamVR_Input_Sources handType, bool isLeft)
+    {
+        if (grabPinchAction.GetStateUp(handType))
+        {
+            Debug.Log("Button released");
+            if (isLeft) setLeftTriggerDown(false);
+            else setRightTriggerDown(false);
+        }
+        if (grabPinchAction.GetLastStateDown(handType))
+        {
+            Debug.Log("Button down");
+            if (isLeft) setLeftTriggerDown(true);
+            else setRightTriggerDown(true);
+        }
+    }
 
     public void setLeftHandTouching(bool set)
     {

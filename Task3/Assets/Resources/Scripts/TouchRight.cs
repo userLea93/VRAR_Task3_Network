@@ -25,32 +25,6 @@ public class TouchRight : MonoBehaviour {
     {
 
     }
-    private void Update()
-    {
-        if (vive)
-        {
-            if (grabPinchAction.GetStateUp(handType))
-            {
-                Debug.Log("Button released");
-                if (!viveGrabScript)
-                {
-                    loadScript();
-                }
-                if (viveGrabScript)
-                    viveGrabScript.setRightTriggerDown(false);
-            }
-            if (grabPinchAction.GetLastStateDown(handType))
-            {
-                Debug.Log("Button down");
-                if (!viveGrabScript)
-                {
-                    loadScript();
-                }
-                if (viveGrabScript) viveGrabScript.setRightTriggerDown(true);
-            }
-        }
-
-    }
 
     private void OnTriggerEnter(Collider other)
     {
