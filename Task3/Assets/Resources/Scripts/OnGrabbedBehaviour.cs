@@ -33,8 +33,8 @@ public class OnGrabbedBehaviour : MonoBehaviour
     {
         //Debug.Log("OnGrabbedBahavior entering ...");
 
-        Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
-        rb.isKinematic = true;
+        //Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
+        //rb.isKinematic = true;
         grabbed = true;
         owner = actor;
     }
@@ -44,8 +44,8 @@ public class OnGrabbedBehaviour : MonoBehaviour
     {
         //Debug.Log("OnGrabbedBahavior release!");
 
-        Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
-        rb.isKinematic = false;
+        //Rigidbody rb = this.gameObject.GetComponent<Rigidbody>();
+        //rb.isKinematic = false;
         grabbed = false;
         owner = null;
     }

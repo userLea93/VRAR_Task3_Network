@@ -216,6 +216,9 @@ public class Actor : NetworkBehaviour {
                 netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(otherOwner);
                 //netID.RemoveClientAuthority(otherOwner);
             }
+            Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+
             netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
 
 
@@ -239,6 +242,8 @@ public class Actor : NetworkBehaviour {
             if (otherOwner != null)
             {
                 netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
+                Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
+                rb.isKinematic = false;
             }
         }
 
