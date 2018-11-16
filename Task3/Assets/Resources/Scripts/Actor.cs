@@ -212,6 +212,7 @@ public class Actor : NetworkBehaviour {
     void CmdAssignObjectAuthorityToClient(NetworkIdentity netID)
     {
 
+        Debug.Log("On Server : Start CmdAssignObjectAuthorityToClient");
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
 
 
@@ -235,12 +236,15 @@ public class Actor : NetworkBehaviour {
         }
         else
         {
+            Debug.Log("On Server : Client gets authority");
             Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = true;
 
             netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
             netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityAssigned(connectionToClient);
         }
+        Debug.Log("On Server : End CmdAssignObjectAuthorityToClient");
+
     }
 
     // run on the server
@@ -248,17 +252,20 @@ public class Actor : NetworkBehaviour {
     [Command]
     void CmdRemoveObjectAuthorityFromClient(NetworkIdentity netID)
     {
+        Debug.Log("On Server : Start CmdRemoveObjectAuthorityFromClient");
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
 
         if (otherOwner != null && otherOwner == connectionToClient)
         {
+            Debug.Log("On Server : Client has Objekt - Remove Authority from Client");
+
             netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
             Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;
             netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
             if (authorityRequestToProcess.ContainsKey(netID))
             {
-                Debug.Log("Server: Other client wants to have object");
+                Debug.Log("Server: Other client is waiting - Assign Authority");
 
                 rb = netID.gameObject.GetComponent<Rigidbody>();
                 rb.isKinematic = true;
@@ -270,6 +277,7 @@ public class Actor : NetworkBehaviour {
         }
         else 
         {
+            Debug.Log("Server: Waiting Client wants to remove authority");
             Dictionary<NetworkIdentity, NetworkConnection> tempDict = new Dictionary<NetworkIdentity, NetworkConnection>();
             foreach (KeyValuePair<NetworkIdentity, NetworkConnection> pair in authorityRequestToProcess)
             {
@@ -279,6 +287,7 @@ public class Actor : NetworkBehaviour {
             authorityRequestToProcess = tempDict;
 
         }
+        Debug.Log("On Server : END CmdRemoveObjectAuthorityFromClient");
 
 
     }
