@@ -43,9 +43,13 @@ public class ViveGrab : MonoBehaviour
         {
             //am.grabbedByPlayer = false;
             // grab conditions are not fulfilled
-            if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
+            if (amLeftHand != null)
             {
                 amLeftHand.grabbedByPlayer = false;
+            }
+            if (amRightHand != null)
+            {
+                amRightHand.grabbedByPlayer = false;
             }
         }
 
