@@ -13,6 +13,7 @@ public class AuthorityManager : NetworkBehaviour {
     //**************************************************************************************************
     Actor localActor; // Actor that is steering this player 
 
+    private bool hasAuthorityLastFrame = false;
     private bool requestProcessed = true; // on start, there are no requests therefor we don't have to wait for them
     private bool grabbed = false; // if this is true client authority for the object should be requested
     public bool grabbedByPlayer // private "grabbed" field can be accessed from other scripts through grabbedByPlayer
@@ -61,19 +62,29 @@ public class AuthorityManager : NetworkBehaviour {
         //    Debug.Log("Client has box authority");
         //}
 
-        if (isClient && requestProcessed)
+        if (isClient)
         {
-            if (grabbed && !netID.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+            if (requestProcessed)
             {
-                Debug.Log("REQUEST authority of " + netID.ToString());
-                requestProcessed = false;
-                localActor.RequestObjectAuthority(netID);
+                if (grabbed && !netID.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
+                {
+                    Debug.Log("REQUEST authority of " + netID.ToString());
+                    requestProcessed = false;
+                    localActor.RequestObjectAuthority(netID);
+                }
+                else if (!grabbed && netID.hasAuthority)
+                {
+                    requestProcessed = false;
+                    localActor.ReturnObjectAuthority(netID);
+                }
             }
-            else if (!grabbed && netID.hasAuthority)
+
+            if (hasAuthorityLastFrame && !netID.hasAuthority)
             {
-                requestProcessed = false;
-                localActor.ReturnObjectAuthority(netID);
+                onb.OnReleased();
             }
+
+            hasAuthorityLastFrame = netID.hasAuthority;
         }
     }
 

@@ -55,7 +55,7 @@ public class Actor : NetworkBehaviour {
                 GameObject[] sharedObjsArr = GameObject.FindGameObjectsWithTag("shared");
                 for (int i = 0; i < sharedObjsArr.Length; i++)
                 {
-                    Rigidbody rb = sharedObjects[i].GetComponent<Rigidbody>();
+                    Rigidbody rb = sharedObjsArr[i].GetComponent<Rigidbody>();
                     if (rb)
                     {
                         rb.isKinematic = true;
