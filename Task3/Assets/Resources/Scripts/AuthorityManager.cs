@@ -66,6 +66,7 @@ public class AuthorityManager : NetworkBehaviour {
                 }
                 else if (!grabbed && (netID.hasAuthority || waitForAuthority))
                 {
+                    Debug.Log("REQUEST Remove Authority " + netID.ToString() + " netID.hasAuthority: " + netID.hasAuthority + ", waitForAuthority: " + waitForAuthority);
                     waitForAuthority = false;
                     requestProcessed = false;
                     localActor.ReturnObjectAuthority(netID);
@@ -104,7 +105,7 @@ public class AuthorityManager : NetworkBehaviour {
     [TargetRpc]
     public void TargetAuthorityAssigned(NetworkConnection connection)
     {
-        Debug.Log("Get authority from host.");
+        Debug.Log("From Host: Get authority.");
         requestProcessed = true;
 
         onb.OnGrabbed(localActor);
@@ -113,7 +114,7 @@ public class AuthorityManager : NetworkBehaviour {
     [TargetRpc]
     public void TargetAuthorityRemoved(NetworkConnection connection)
     {
-        Debug.Log("Remove Authority from Host.");
+        Debug.Log("From Host: Authority Removed.");
         requestProcessed = true;
         onb.OnReleased();
         
@@ -122,7 +123,7 @@ public class AuthorityManager : NetworkBehaviour {
     [TargetRpc]
     public void TargetAuthorityDeclined(NetworkConnection connection)
     {
-        Debug.Log("Declined Authority from Host. Please wait");
+        Debug.Log("From Host: Declined Authority from Host. Please wait");
         requestProcessed = true;
         waitForAuthority = true;
     }

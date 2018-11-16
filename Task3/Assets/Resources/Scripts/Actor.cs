@@ -268,7 +268,7 @@ public class Actor : NetworkBehaviour {
                 authorityRequestToProcess.Remove(netID);
             }
         }
-        else
+        else 
         {
             Dictionary<NetworkIdentity, NetworkConnection> tempDict = new Dictionary<NetworkIdentity, NetworkConnection>();
             foreach (KeyValuePair<NetworkIdentity, NetworkConnection> pair in authorityRequestToProcess)
