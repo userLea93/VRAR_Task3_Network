@@ -249,26 +249,38 @@ public class Actor : NetworkBehaviour {
     void CmdRemoveObjectAuthorityFromClient(NetworkIdentity netID)
     {
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
-        
+
         if (otherOwner != null && otherOwner == connectionToClient)
         {
             netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(connectionToClient);
             Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;
+            netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
+            if (authorityRequestToProcess.ContainsKey(netID))
+            {
+                Debug.Log("Server: Other client wants to have object");
+
+                rb = netID.gameObject.GetComponent<Rigidbody>();
+                rb.isKinematic = true;
+
+                netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(authorityRequestToProcess[netID]);
+                netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityAssigned(authorityRequestToProcess[netID]);
+                authorityRequestToProcess.Remove(netID);
+            }
         }
-        
-        netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
-        if (authorityRequestToProcess.ContainsKey(netID))
+        else
         {
-            Debug.Log("Server: Other client wants to have object");
+            Dictionary<NetworkIdentity, NetworkConnection> tempDict = new Dictionary<NetworkIdentity, NetworkConnection>();
+            foreach (KeyValuePair<NetworkIdentity, NetworkConnection> pair in authorityRequestToProcess)
+            {
+                //Now you can access the key and value both separately from this attachStat as:
+                if (pair.Value != connectionToClient) tempDict.Add(pair.Key, pair.Value);
+            }
+            authorityRequestToProcess = tempDict;
 
-            Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
-            rb.isKinematic = true;
-
-            netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(authorityRequestToProcess[netID]);
-            netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityAssigned(authorityRequestToProcess[netID]);
-            authorityRequestToProcess.Remove(netID);
         }
+
+
     }
     //*******************************
 }

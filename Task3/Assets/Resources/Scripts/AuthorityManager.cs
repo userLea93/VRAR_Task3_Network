@@ -15,6 +15,7 @@ public class AuthorityManager : NetworkBehaviour {
 
     private bool requestProcessed = true; // on start, there are no requests therefor we don't have to wait for them
     private bool grabbed = false; // if this is true client authority for the object should be requested
+    private bool waitForAuthority = false;
     public bool grabbedByPlayer // private "grabbed" field can be accessed from other scripts through grabbedByPlayer
     {
         get { return grabbed; }
@@ -63,8 +64,9 @@ public class AuthorityManager : NetworkBehaviour {
                     requestProcessed = false;
                     localActor.RequestObjectAuthority(netID);
                 }
-                else if (!grabbed && netID.hasAuthority)
+                else if (!grabbed && (netID.hasAuthority || waitForAuthority))
                 {
+                    waitForAuthority = false;
                     requestProcessed = false;
                     localActor.ReturnObjectAuthority(netID);
                 }
@@ -122,5 +124,6 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("Declined Authority from Host. Please wait");
         requestProcessed = true;
+        waitForAuthority = true;
     }
 }
