@@ -87,7 +87,7 @@ public class AuthorityManager : NetworkBehaviour {
     // assign the authority over this game object to a client with NetworkConnection conn
     public void AssignClientAuthority(NetworkConnection conn)
     {
-        Debug.Log("Assign Authority!");
+        Debug.Log("On server Assign Authority!");
         netID.AssignClientAuthority(conn);
         //grabbed = true; // should be true already
     }
@@ -96,7 +96,7 @@ public class AuthorityManager : NetworkBehaviour {
     // remove the authority over this game object from a client with NetworkConnection conn
     public void RemoveClientAuthority(NetworkConnection conn)
     {
-        Debug.Log("Remove Authority!");
+        Debug.Log("On server Remove Authority!");
         netID.RemoveClientAuthority(conn);
 
         //grabbed = false;
@@ -107,7 +107,7 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("From Host: Get authority.");
         requestProcessed = true;
-
+        waitForAuthority = false;
         onb.OnGrabbed(localActor);
         
     }

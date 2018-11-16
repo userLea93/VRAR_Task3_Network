@@ -285,6 +285,7 @@ public class Actor : NetworkBehaviour {
                 if (pair.Value != connectionToClient) tempDict.Add(pair.Key, pair.Value);
             }
             authorityRequestToProcess = tempDict;
+            netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
 
         }
         Debug.Log("On Server : END CmdRemoveObjectAuthorityFromClient");
