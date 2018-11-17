@@ -14,6 +14,7 @@ public class Actor : NetworkBehaviour {
     //this part is for object sharing
     //*******************************
     List<NetworkIdentity> sharedObjects; // shared objects on the server or localActor
+    Dictionary<NetworkIdentity, NetworkConnection> authorityRequestToProcess = new Dictionary<NetworkIdentity, NetworkConnection>();
     //*******************************
 
 
@@ -35,6 +36,7 @@ public class Actor : NetworkBehaviour {
             }
 
             sharedObjects = new List<NetworkIdentity>();
+            GameObject[] sharedObjsArr = GameObject.FindGameObjectsWithTag("shared");
 
             //this part is for object sharing
             //*******************************
@@ -42,7 +44,6 @@ public class Actor : NetworkBehaviour {
             {
                 // find objects that can be manipulated 
                 // TIPP : you can use a specific tag for all GO's that can be manipulated by players
-                GameObject[] sharedObjsArr = GameObject.FindGameObjectsWithTag("shared");
                 for (int i = 0; i < sharedObjsArr.Length; i++)
                 {
                     sharedObjects.Add(sharedObjsArr[i].GetComponent<NetworkIdentity>());
@@ -52,7 +53,6 @@ public class Actor : NetworkBehaviour {
             {
                 // find objects that can be manipulated 
                 // assign this Actor to the localActor field of the AuthorityManager component of each shared object
-                GameObject[] sharedObjsArr = GameObject.FindGameObjectsWithTag("shared");
                 for (int i = 0; i < sharedObjsArr.Length; i++)
                 {
                     Rigidbody rb = sharedObjsArr[i].GetComponent<Rigidbody>();
@@ -203,7 +203,6 @@ public class Actor : NetworkBehaviour {
             CmdRemoveObjectAuthorityFromClient(netID);
         }  
     }
-    Dictionary<NetworkIdentity, NetworkConnection> authorityRequestToProcess = new Dictionary<NetworkIdentity, NetworkConnection>();
 
 
     // run on the server
@@ -212,15 +211,11 @@ public class Actor : NetworkBehaviour {
     void CmdAssignObjectAuthorityToClient(NetworkIdentity netID)
     {
 
-        Debug.Log("On Server : Start CmdAssignObjectAuthorityToClient");
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
-
 
         if (otherOwner != null && otherOwner != connectionToClient)
         {
             Debug.Log("On Server : Other client has authority. Save request");
-            //netID.gameObject.GetComponent<AuthorityManager>().RemoveClientAuthority(otherOwner);
-            //netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(otherOwner);
             Dictionary<NetworkIdentity, NetworkConnection> tempDict = new Dictionary<NetworkIdentity, NetworkConnection>();
             foreach (KeyValuePair<NetworkIdentity, NetworkConnection> pair in authorityRequestToProcess)
             {
@@ -243,7 +238,6 @@ public class Actor : NetworkBehaviour {
             netID.gameObject.GetComponent<AuthorityManager>().AssignClientAuthority(connectionToClient);
             netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityAssigned(connectionToClient);
         }
-        Debug.Log("On Server : End CmdAssignObjectAuthorityToClient");
 
     }
 
@@ -252,7 +246,6 @@ public class Actor : NetworkBehaviour {
     [Command]
     void CmdRemoveObjectAuthorityFromClient(NetworkIdentity netID)
     {
-        Debug.Log("On Server : Start CmdRemoveObjectAuthorityFromClient");
         NetworkConnection otherOwner = netID.clientAuthorityOwner;
 
         if (otherOwner != null && otherOwner == connectionToClient)
@@ -263,6 +256,7 @@ public class Actor : NetworkBehaviour {
             Rigidbody rb = netID.gameObject.GetComponent<Rigidbody>();
             rb.isKinematic = false;
             netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
+
             if (authorityRequestToProcess.ContainsKey(netID))
             {
                 Debug.Log("Server: Other client is waiting - Assign Authority");
@@ -288,8 +282,6 @@ public class Actor : NetworkBehaviour {
             netID.gameObject.GetComponent<AuthorityManager>().TargetAuthorityRemoved(connectionToClient);
 
         }
-        Debug.Log("On Server : END CmdRemoveObjectAuthorityFromClient");
-
 
     }
     //*******************************

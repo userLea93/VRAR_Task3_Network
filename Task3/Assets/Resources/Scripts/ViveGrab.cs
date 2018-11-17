@@ -50,7 +50,6 @@ public class ViveGrab : MonoBehaviour
         if (leftHandTouching && rightHandTouching && leftTriggerDown && rightTriggerDown)
         {
             // notify AuthorityManager that grab conditions are fulfilled
-            //am.grabbedByPlayer = true;
             Debug.Log("!!!!!Box GRABBED BY VIVE");
             if (amLeftHand != null && amLeftHand.netId == amRightHand.netId)
             {
@@ -59,7 +58,6 @@ public class ViveGrab : MonoBehaviour
         }
         else
         {
-            //am.grabbedByPlayer = false;
             // grab conditions are not fulfilled
             if (amLeftHand != null)
             {

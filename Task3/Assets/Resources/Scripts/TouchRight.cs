@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
-using Valve.VR;
 
 // TODO: this script CAN be used to detect the events of a right networked hand touching a shared object
 // fill in the implementation and communicate touching events to either LeapGrab and ViveGrab by setting the rightHandTouching variable
@@ -9,11 +9,7 @@ using Valve.VR;
 
 public class TouchRight : MonoBehaviour {
 
-    [SteamVR_DefaultAction("GrabPinch")]
-    public SteamVR_Action_Boolean grabPinchAction;
-
-    public SteamVR_Input_Sources handType;
-
+    
     // the implementation of a touch condition might be different for Vive and Leap 
     public bool vive;
     public bool leap;
@@ -39,8 +35,6 @@ public class TouchRight : MonoBehaviour {
 
                 if (leapGrabScript)
                 {
-                    //Debug.Log("Touch right");
-
                     AuthorityManager am = other.gameObject.GetComponent<AuthorityManager>();
                     leapGrabScript.touchRightDetected(am);
                 }
@@ -75,7 +69,6 @@ public class TouchRight : MonoBehaviour {
 
                 if (leapGrabScript)
                 {
-                    //Debug.Log("Release right");
                     leapGrabScript.touchRightRelease();
                 }
             }

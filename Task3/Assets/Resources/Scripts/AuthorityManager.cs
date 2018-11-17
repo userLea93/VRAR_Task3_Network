@@ -47,15 +47,18 @@ public class AuthorityManager : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
- 
-        //if (isClient && netID.hasAuthority)
-        //{
-        //    Debug.Log("Client has box authority");
-        //}
 
         if (isClient)
         {
+            //if (Input.GetKeyDown(netID.netId.ToString()))
+            //{
+            //    grabbed = true;
+            //}
+            //if (Input.GetKeyDown(KeyCode.E))
+            //{
+            //    grabbed = false;
+            //}
+
             if (requestProcessed)
             {
                 if (grabbed && !netID.hasAuthority) // grab conditions are fulfilled but actor does not have authority -> request!
@@ -89,7 +92,6 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("On server Assign Authority!");
         netID.AssignClientAuthority(conn);
-        //grabbed = true; // should be true already
     }
 
     // should only be called on server (by an Actor)
@@ -98,8 +100,6 @@ public class AuthorityManager : NetworkBehaviour {
     {
         Debug.Log("On server Remove Authority!");
         netID.RemoveClientAuthority(conn);
-
-        //grabbed = false;
     }
 
     [TargetRpc]

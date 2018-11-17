@@ -77,20 +77,6 @@ public class LeapGrab : MonoBehaviour {
 
     public void touchLeftDetected(AuthorityManager authorityManager)
     {
-        /*
-        if (rightHandTouching && am)
-        {
-            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
-            {
-                leftHandTouching = false;
-                return;
-            }
-        }
-        else
-        {
-            am = authorityManager;
-        }
-        */
         amLeftHand = authorityManager;
         //Debug.Log("Touch left!");
         leftHandTouching = true;
@@ -99,20 +85,6 @@ public class LeapGrab : MonoBehaviour {
 
     public void touchRightDetected(AuthorityManager authorityManager)
     {
-        /*
-        if (leftHandTouching && am)
-        {
-            if (am.netId != authorityManager.netId) // if left and right hand are touching different objects
-            {
-                rightHandTouching = true;
-                return;
-            }
-        }
-        else
-        {
-            am = authorityManager;
-        }
-        */
         amRightHand = authorityManager;
         //Debug.Log("Touch right!");
         rightHandTouching = true;
